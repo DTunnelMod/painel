@@ -1,0 +1,61 @@
+<div class="sidebar shadow">
+  <div class="sidebar-header">
+    <a href="/">
+      <img src="../static/img/icon.jpg" width="40" height="40">
+      <span class="fs-4">DTunnelMod</span>
+    </a>
+    <button id="closeNav">
+      <i class="bi bi-list-nested"></i>
+    </button>
+  </div>
+  <ul class="sidebar-nav">
+    <li class="nav-item">
+      <a href="/" target="_self" class="nav-link text-white <%~ it.active === 'home' ? 'active' : '' %>">
+        <i class="bi bi-house-door"></i>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/categories" target="_self" class="nav-link text-white <%~ it.active === 'categories' ? 'active' : '' %>">
+        <i class="bi bi-bookmark"></i>
+        <span>Categorias</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/configs" target="_self" class="nav-link text-white <%~ it.active === 'configs' ? 'active' : '' %>">
+        <i class="bi bi-gear"></i>
+        <span>Configurações</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/application" target="_self" class="nav-link text-white <%~ it.active === 'application' ? 'active' : '' %>">
+        <i class="bi bi-phone"></i>
+        <span>Aplicativo</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/texts" target="_self" class="nav-link text-white <%~ it.active === 'texts' ? 'active' : '' %>">
+        <i class="bi bi-file-text"></i>
+        <span>Textos</span>
+      </a>
+    </li>
+    <li class="nav-item d-flex">
+      <a class="btn nav-link text-white text-start" onclick="swithTheme()">
+        <i class="bi bi-moon"></i>
+        <span>Modo escuro</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/profile" target="_self" class="nav-link text-white <%~ it.active === 'profile' ? 'active' : '' %>">
+        <i class="bi bi-person"></i>
+        <span>Perfil</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/logout" target="_self" class="nav-link text-white">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Sair</span>
+      </a>
+    </li>
+  </ul>
+</div>

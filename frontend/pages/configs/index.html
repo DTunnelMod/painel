@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR" translate="no" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <base href="/" target="_blank">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <link rel="shortcut icon" href="../static/img/favicon.svg" />
+  <title>DTunnelMod - Configs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/css/sidebar.css">
+  <link rel="stylesheet" href="../static/css/header.css">
+  <script src="../static/js/dark_light.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+  <meta name="csrf-token" content="<%= it.csrfToken %>">
+</head>
+
+<body>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  <main class="d-flex">
+    <%~ include("./sidebar", it) %>
+    <div class="container-fluid p-0">
+      <%~ include("./header", it) %>
+      <div class="content pt-1 overflow-auto">
+        <div class="card shadow border border-0 overflow-auto h-100">
+          <div class="card-body m-0">
+            <h1 class="h3 mb-4 text-gray-800 text-uppercase">Configurações</h1>
+            <div class="d-md-flex justify-content-between mb-3 align-items-center">
+              <div class="d-flex flex-column mb-1">
+                <div class="d-flex">
+                  <div class="mb-1 me-1">
+                    <select class="form-select config-status" style="width: auto">
+                      <option value="ACTIVE">
+                        ATIVO</option>
+                      <option value="INACTIVE">
+                        INATIVO</option>
+                      <option value="ALL">
+                        TUDO
+                      </option>
+                    </select>
+                  </div>
+                  <div class="search-config input-group mb-1">
+                    <input class="form-control" type="search" placeholder="Pesquisar" aria-label="Search">
+                    <button class="input-group-text border-1" type="submit">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-column">
+                <div class="d-flex mb-1" style="min-width: 300px;">
+                  <button type="button" class="btn btn-dark flex-fill me-1 w-50 create-config">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>ADICIONAR</span>
+                  </button>
+                  <button type="button" class="btn btn-dark flex-fill w-50 import-config" disabled>
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    </i> <span>IMPORTAR</span>
+                  </button>
+                </div>
+                <div class="d-flex">
+                  <button type="button" class="btn btn-dark flex-fill me-1 w-50 export-config">
+                    <i class="bi bi-file-earmark-arrow-down"></i>
+                    </i> <span>EXPORTAR</span>
+                  </button>
+                  <button type="button" class="btn btn-dark flex-fill w-50 delete-config">
+                    <i class="bi bi-trash"></i>
+                    </i> <span>EXCLUIR</span>
+                  </button>
+                </div>
+                <button type="button" class="btn btn-dark flex-fill mt-1 w-md-50 release-update invisible">
+                  <i class="bi bi-send"></i>
+                  <span>EDITAR NOTAS</span>
+                </button>
+              </div>
+            </div>
+            <div id="root" class="h-100"></div>
+            <div class="d-none config-not-found d-flex justify-content-center align-items-center p-3">
+              <h4 class="text-muted text-nowrap">Nenhuma configuração encontrada</h4>
+            </div>
+            <div id="pagination"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../static/js/sidebar.js"></script>
+  <script src="../static/js/utils.js"></script>
+
+  <script>
+    const startLoader = () => {
+      const html = `
+        <div class="table-responsive text-center rounded">
+            <table class="table table-striped mb-3">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <input class="form-check form-check-input" type="checkbox"
+                                onclick="table.toggleCheckAll(this.checked)">
+                        </th>
+                        <th scope="col" class="border-0" placeholder="#">#</th>
+                        <th scope="col" class="border-0" placeholder="Nome">Nome</th>
+                        <th scope="col" class="border-0" placeholder="Categoria">Categoria</th>
+                        <th scope="col" class="border-0" placeholder="Ordem">Ordem</th>
+                        <th scope="col" class="border-0" placeholder="Modo">Modo</th>
+                        <th scope="col" class="border-0" placeholder="Status">Status</th>
+                        <th scope="col" class="border-0" placeholder="Ações">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="col">
+                            <input class="form-check form-check-input" type="checkbox" value=""
+                                onclick="table.toggleCheckAll(this.checked)">
+                        </th>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <span class="placeholder w-100 rounded rounded-pill"></span>
+                            </span>
+                        </td>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <span class="placeholder w-100 rounded rounded-pill"></span>
+                            </span>
+                        </td>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <span class="placeholder w-100 rounded rounded-pill"></span>
+                            </span>
+                        </td>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <span class="placeholder w-100 rounded rounded-pill"></span>
+                            </span>
+                        </td>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <span class="placeholder w-100 rounded rounded-pill"></span>
+                            </span>
+                        </td>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <div class="form-check form-switch d-flex justify-content-center">
+                                    <input class="form-check-input disabled placeholder" type="checkbox"
+                                        role="switch" checked>
+                                </div>
+                            </span>
+                        </td>
+                        <td class="border-0">
+                            <span class="placeholder-glow">
+                                <button class="btn btn-sm btn-dark mb-1 disabled placeholder"
+                                    style="width: 30px;"></button>
+                                <button class="btn btn-sm btn-dark mb-1 disabled placeholder"
+                                    style="width: 30px;"></button>
+                                <button class="btn btn-sm btn-dark mb-1 disabled placeholder"
+                                    style="width: 30px;"></button>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        `;
+      const root = document.querySelector('#root');
+      root.innerHTML = html;
+
+      const tbody = root.querySelector('tbody');
+      const children = tbody.children[0];
+
+      tbody.innerHTML = '';
+      for (let i = 0; i < 15; i++) {
+        tbody.appendChild(children.cloneNode(true));
+      }
+    }
+  </script>
+  <script type="module" src="../static/js/config/main.js"></script>
+</body>
+
+</html>

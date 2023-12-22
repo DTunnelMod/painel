@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  username   String   @unique
+  password   String
+  email      String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  AppText   AppText[]
+  Category  Category[]
+  AppConfig AppConfig[]
+  AppLayout AppLayout[]
+
+  @@map("users")
+}
+
+model Category {
+  id         Int         @id @default(autoincrement())
+  name       String
+  color      String
+  sorter     Int
+  status     String
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  user_id    String
+  Config     AppConfig[]
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("categories")
+}
+
+model AppConfig {
+  id                     Int      @id @default(autoincrement())
+  auth_password          String?
+  auth_username          String?
+  auth_v2ray_uuid        String?
+  category_id            Int
+  config_openvpn         String?
+  config_payload_payload String?
+  config_payload_sni     String?
+  config_v2ray           String?
+  description            String?
+  dns_server_dns1        String?
+  dns_server_dns2        String?
+  icon                   String
+  mode                   String
+  name                   String
+  proxy_host             String?
+  proxy_port             Int?
+  server_host            String?
+  server_port            Int?
+  sorter                 Int
+  status                 String
+  tls_version            String?
+  udp_ports              String?
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
+  url_check_user         String?
+  user_id                String
+
+  user     User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  category Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([user_id])
+  @@map("app_configs")
+}
+
+model AppText {
+  id      Int    @id @default(autoincrement())
+  label   String
+  text    String
+  user_id String
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([user_id])
+  @@map("app_texts")
+}
+
+model AppLayout {
+  id             Int                @id @default(autoincrement())
+  user_id        String
+  is_active      Boolean            @default(false)
+  layout_storage AppLayoutStorage[]
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([user_id])
+  @@map("app_layouts")
+}
+
+model AppLayoutStorage {
+  id            Int     @id @default(autoincrement())
+  label         String
+  name          String
+  status        String
+  type          String
+  value         String?
+  app_layout_id Int
+
+  app_layout AppLayout @relation(fields: [app_layout_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("app_layout_storages")
+}

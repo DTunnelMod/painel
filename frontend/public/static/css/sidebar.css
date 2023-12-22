@@ -1,0 +1,144 @@
+.sidebar {
+  z-index: 999;
+  width: 260px;
+  transition: all 0.4s;
+  padding: 15px;
+  background: #1b1d1f;
+  height: 100vh;
+}
+
+.sidebar-header {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #5a5a5a;
+  gap: 10px;
+}
+
+.sidebar-header a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #FFF;
+  gap: 10px;
+}
+
+.sidebar-header a img {
+  border-radius: 50%;
+}
+
+.sidebar-header button {
+  background: #00000028;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.sidebar-nav {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav-item {
+  width: 100%;
+  margin-bottom: .3rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+.nav-link {
+  width: 100%;
+  padding: 5px 10px 5px 9px;
+  border-radius: 5px;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav-item a>i {
+  font-size: 20px;
+}
+
+.nav-item a>span {
+  white-space: nowrap;
+}
+
+.nav-link.active {
+  background-color: #121314cc;
+  transition: all 0.5s;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  background-color: #121314cc;
+}
+
+.img-rounded {
+  border-radius: 50%;
+}
+
+.text-hidden,
+.nav-item a>span {
+  transition: all 0.5s;
+}
+
+@media (max-width: 1153px) {
+  .sidebar {
+    width: 65px;
+    margin-left: -10px;
+  }
+
+  .nav-link,
+  .nav-item {
+    width: 40px;
+  }
+
+  .sidebar-header a span,
+  .nav-item a>span,
+  .text-hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    margin-left: -260px;
+    position: fixed;
+    min-height: 100vh;
+    z-index: 999;
+    width: unset;
+  }
+
+  .nav-link,
+  .nav-item {
+    width: 100%;
+  }
+
+  .sidebar.active {
+    margin-left: 0;
+  }
+
+  .sidebar-header a span,
+  .nav-item a>span,
+  .text-hidden {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebar-header button {
+    visibility: visible;
+    opacity: 1;
+  }
+}

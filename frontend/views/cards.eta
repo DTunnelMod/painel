@@ -1,0 +1,66 @@
+<div class="main-content-container container-fluid px-4">
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border border-0">
+        <div class="card-body text-center">
+          <p class="fs-4">Registrado em</p>
+          <div class="fs-5 bg-dark rounded-pill text-white ps-2">
+            <%= it.formatDate(it.user.created_at) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border border-0">
+        <div class="card-body text-center">
+          <p class="fs-4">Atualizado em</p>
+          <div class="fs-5 bg-dark rounded-pill text-white ps-2">
+            <%= it.formatDate(it.user.updated_at) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow border border-0">
+        <div class="card-body text-center">
+          <p class="fs-4">Expira em</p>
+          <div class="d-flex gap-3">
+            <div class="fs-5 bg-dark rounded-pill text-white flex-fill ps-2">
+              <i class="bi bi-infinity"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card border border-0 shadow">
+        <div class="card-body text-center text-nowrap">
+          <a href="/configs" target="_self" class="text-decoration-none link-none">
+            <p class="fw-bold fs-6">TOTAL DE CONFIGURAÇÕES</p>
+            <p class="__config fs-1"></p>
+            <p class="__config__placeholder fs-1 placeholder-glow">
+              <span class="placeholder rounded rounded-pill col-3 p-3"></span>
+            </p>
+            <i class="fs-3 bi bi-arrow-right-circle"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card border border-0 shadow">
+        <div class="card-body text-center text-nowrap">
+          <a href="/categories" target="_self" class="text-decoration-none link-none">
+            <p class="fw-bold fs-6">TOTAL DE CATEGORIAS</p>
+            <p class="__category fs-1"></p>
+            <p class="placeholder-glow fs-1 __category__placeholder">
+              <span class="placeholder rounded rounded-pill col-3 p-3"></span>
+            </p>
+            <i class="fs-3 bi bi-arrow-right-circle"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

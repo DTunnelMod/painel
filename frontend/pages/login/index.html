@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <base href="/" target="_blank">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/static/img/favicon.svg" />
+  <title>DTunnelMod - Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <meta name="csrf-token" content="<%= it.csrfToken %>">
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #282d31 inset !important;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .btn-dark {
+      background-color: #181818;
+      border: none;
+    }
+
+    .text-bg-dark {
+      background-color: #181818;
+    }
+
+    .form-select,
+    .form-control {
+      outline: none;
+      border: none;
+    }
+
+    .btn.disabled,
+    .btn:disabled,
+    fieldset:disabled .btn {
+      background-color: #181818;
+      border: none;
+    }
+
+    img {
+      border-radius: 50%;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link href="../static/css/signin.css" rel="stylesheet">
+  <link href="../static/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+  <main class="form-signin text-center">
+    <div class="card text-bg-dark shadow border border-0 rounded-4">
+      <div class="card-body">
+        <form role="form" action="/login" class="pt-3">
+          <img class="mb-4" src="/static/img/icon.jpg" alt width="80" height="80">
+          <h1 class="h3 mb-4 fw-normal">DTunnelMod</h1>
+          <div class="__spinner">
+            <div class="spinner-border text-light p-4 mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="__inputs">
+            <div class="mb-3 text-start">
+              <label class="form-label ms-1 mb-1" for="username" placeholder="Nome de usuario">Nome de
+                usuario</label>
+              <input class="form-control bg-dark text-white" id="username" name="username" placeholder="username" required type="text" value>
+            </div>
+            <div class="mb-4 text-start">
+              <label class="form-label ms-1 mb-1" for="password" placeholder="Ex: password" type="password">Senha</label>
+              <input class="form-control bg-dark text-white" id="password" name="password" placeholder="password" required type="password" value>
+            </div>
+            <button type="submit" id="login" class="w-100 btn btn-dark btn-block d-flex align-items-center justify-content-center mb-4">
+              Entrar
+            </button>
+            <p><a href="/register" class="text-reset mt-2" target="_self">Não tem uma conta?</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="../static/js/utils.js"></script>
+  <script>
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    const showSpinner = () => {
+      const spinner = document.querySelector('.__spinner');
+      const inputs = document.querySelector('.__inputs');
+      spinner.style.display = 'block';
+      inputs.style.display = 'none';
+    }
+
+    const closeSpinner = () => {
+      const spinner = document.querySelector('.__spinner');
+      const inputs = document.querySelector('.__inputs');
+      spinner.style.display = 'none';
+      inputs.style.display = 'block';
+    }
+
+    showSpinner();
+    setTimeout(() => closeSpinner(), 500);
+
+    let csrfToken = getCsrfTokenHead();
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      //showToastInfo('Aguarde, fazendo login...');
+      showSpinner();
+
+      const formData = new FormData(form);
+      const body = Object.fromEntries(formData);
+
+      console.log({
+        body
+      })
+
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'csrf-token': csrfToken,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.status == 200) {
+        showToastSuccess(data.message);
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+        return;
+      }
+
+      const csrfTokenHeader = getCsrfTokenRefresh(response);
+      if (csrfTokenHeader) csrfToken = csrfTokenHeader;
+
+      showToastError(data.message);
+      closeSpinner();
+
+    });
+  </script>
+</body>
+
+</html>

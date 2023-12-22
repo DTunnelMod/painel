@@ -1,0 +1,7 @@
+node_modules
+.env
+.env.production
+.env.development
+prisma/*.db
+prisma/*.db-journal
+yarn.lock

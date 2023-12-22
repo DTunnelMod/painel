@@ -1,0 +1,80 @@
+.text-bg-success {
+    background-color: #0bc54d !important;
+}
+
+.text-bg-danger {
+    background-color: #f44336 !important;
+}
+
+.text-bg-warning {
+    background-color: #ff9800 !important;
+}
+
+.form-check-input {
+    border-color: #2c3136 !important;
+}
+
+.form-check-input:checked {
+    background-color: #282d31 !important;
+    border-color: #2c3136 !important;
+}
+
+.btn-dark {
+    background-color: #282d31 !important;
+}
+
+.bg-dark {
+    background-color: #282d31 !important;
+}
+
+.link-none {
+    color: unset !important;
+}
+
+.form-switch .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-content {
+    border: none !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.page-item.active .page-link {
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+}
+
+.btn-custom-dark {
+    background-color: #262a2e;
+    border: none;
+    color: #fff !important;
+}
+
+.btn-custom-outline-dark {
+    color: #fff !important;
+    border: #fff 1px solid;
+}
+
+.btn-custom-outline-dark:hover {
+    border: #fff 1px solid;
+}
+
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+    outline: 0px !important;
+    -webkit-appearance: none;
+    box-shadow: none !important;
+}

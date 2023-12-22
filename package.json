@@ -1,0 +1,45 @@
+{
+  "name": "dtunnel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node build/index.js",
+    "dev": "tsx watch src/index.ts",
+    "prod": "pm2 start ecosystem.config.js",
+    "kill": "pm2 delete ecosystem.config.js",
+    "lint": "eslint --fix . && prettier --write .",
+    "lint:check": "prettier --check .",
+    "logs": "pm2 logs"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^9.2.0",
+    "@fastify/cors": "^8.4.1",
+    "@fastify/csrf": "^6.3.0",
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/static": "^6.12.0",
+    "@fastify/view": "^8.2.0",
+    "@prisma/client": "^5.7.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "eta": "^3.2.0",
+    "fastify": "^4.24.3",
+    "jsonwebtoken": "^9.0.2",
+    "node-cache": "^5.1.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.2",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint": "^8.53.0",
+    "prettier": "2.8.8",
+    "prisma": "^5.7.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.1.6"
+  }
+}

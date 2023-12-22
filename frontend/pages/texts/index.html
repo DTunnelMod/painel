@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR" translate="no" data-bs-theme="light">
+
+<head>
+  <base href="/" target="_blank">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <link rel="shortcut icon" href="../static/img/favicon.svg" />
+  <title>DTunnelMod - Textos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/css/sidebar.css">
+  <link rel="stylesheet" href="../static/css/header.css">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+  <script src="../static/js/dark_light.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+  <meta name="csrf-token" content="<%= it.csrfToken %>">
+</head>
+
+<body>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  <main class="d-flex">
+    <%~ include("./sidebar", it) %>
+    <div class="container-fluid p-0">
+      <%~ include("./header", it) %>
+      <div class="content pt-1 overflow-auto">
+        <div class="card shadow border border-0 overflow-auto">
+          <div class="card-body m-0">
+            <div class="d-md-flex justify-content-between mb-3">
+              <div class="d-flex flex-column mb-1">
+                <h1 class="h3 mb-4 text-gray-800">Textos</h1>
+                <div>
+                  <div class="input-group mb-1">
+                    <input class="form-control border" type="search" id="search" name="search" placeholder="Pesquisar" value>
+                    <button class="input-group-text border border-start-0 ms-0" type="button">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex justify-content-center justify-content-lg-end mb-1">
+                  <a class="btn btn-danger w-100 me-1" id="reset_texts">
+                    <i class="bi bi-trash"></i>
+                    <span>Resetar</span>
+                  </a>
+                </div>
+                <div class="d-flex justify-content-center justify-content-lg-end mb-1">
+                  <a class="btn btn-dark w-100 me-1">
+                    <i class="bi bi-upload"></i>
+                    <span>Importar</span>
+                  </a>
+                  <button class="btn btn-dark w-100" onclick="exportAppText()">
+                    <i class="bi bi-download"></i>
+                    <span>Exportar</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive text-center">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="__spinner">
+                  <div class="spinner-border text-light p-4 mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+              <table class="table table-striped mb-3" id="table" style="display: none;">
+                <thead>
+                  <tr>
+                    <th scope="col" class="border-0">ID</th>
+                    <th scope="col" class="border-0">Texto</th>
+                    <th scope="col" class="border-0">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal-text" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDITAR TEXTO</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body text-start">
+                <div>
+                  <div class="row">
+                    <input class="form-control" hidden id="id" name="id" type="text" value>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label" for="label">Nome do label</label>
+                      <input class="form-control" disabled id="label" name="label" type="text" value>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label for="color" class="form-label">Pre visualização</label>
+                      <div class="form-control __preview"></div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="text">Texto</label>
+                    <textarea class="form-control" id="text" maxlength="1024" minlength="1" name="text" id="text" required rows="5"></textarea>
+                  </div>
+                  <div class="mb-3 d-flex justify-content-center">
+                    <div class="form-check me-3">
+                      <input class="form-check-input __bold" type="checkbox">
+                      <label class="form-check-label">Negrito</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input __italic" type="checkbox">
+                      <label class="form-check-label">Itálico</label>
+                    </div>
+                  </div>
+                  <div class="modal-footer p-0 pt-2">
+                    <div class="d-flex flex-fill justify-content-end">
+                      <botton type="button" class="btn-responsive w-100 me-2 __apply_color">
+                        COR
+                      </botton>
+                      <button type="button" class="btn-responsive w-100 me-2" data-bs-dismiss="modal">Fechar</button>
+                      <button type="button" class="btn-responsive w-100" data-bs-dismiss="modal" id="btnSave">Salvar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../static/js/sidebar.js"></script>
+  <script src="../static/js/utils.js"></script>
+  <script src="../static/js/jscolor.js"></script>
+
+  <script type="module" src="../static/js/picker.js"></script>
+  <script>
+    let rows;
+    let csrfToken = getCsrfTokenHead();
+
+    const spinner = document.querySelector('.__spinner');
+    const table = document.querySelector('#table');
+
+    const showSpinner = () => {
+      spinner.style.display = 'block';
+      table.style.display = 'none';
+    }
+    const closeSpinner = () => {
+      spinner.style.display = 'none';
+      table.style.display = 'block';
+    };
+
+    const loadTextList = async () => {
+      try {
+
+        showSpinner();
+
+        const table = document.getElementById('table').getElementsByTagName('tbody')[0];
+        const response = await fetch('/texts_list', {
+          method: 'GET',
+          headers: {
+            'csrf-token': csrfToken
+          }
+        });
+
+        const csrfTokenRefresh = getCsrfTokenRefresh(response);
+        if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
+
+        const data = await response.json();
+
+        if (data.data.length > 0) {
+
+          $('#table > tbody > tr').remove();
+          data.data.forEach((value) => {
+
+            const json = JSON.stringify({
+              id: value.label,
+              label: value.label,
+              text: value.text,
+              user_id: data.user_id
+            });
+
+            let action = '';
+            action += `<input type="hidden" id="text_${value.label}" value="${encodeURIComponent(json)}"><tr>`;
+            action += `<div class="d-md-flex justify-content-center align-items-center">`;
+            action += `<button class="btn btn-sm btn-dark mb-1 me-1" data-bs-toggle="modal" data-bs-target="#modal-text" data-bs-text-id="${value.label}">`;
+            action += `<i class="bi bi-pencil-square"></i></button>`;
+            action += `<a class="btn btn-sm btn-dark mb-1 me-1">`
+            action += `<i class="bi bi-trash"></i></a>`;
+            action += `<button class="btn btn-sm btn-dark mb-1 me-1" onclick="copyText('${value.text}')">`;
+            action += `<i class="bi bi-clipboard"></i></button>`;
+            action += `</div>`;
+
+            const row = table.insertRow();
+            row.insertCell(0).textContent = value.id;
+            row.insertCell(1).textContent = value.text;
+            row.insertCell(2).innerHTML = action;
+
+          });
+
+          rows = $('#table > tbody > tr');
+        }
+
+      } catch (err) {
+        showToastError('Não foi possível obter textos')
+      } finally {
+        closeSpinner();
+      }
+    }
+
+    loadTextList();
+
+    const buttonSave = document.getElementById("btnSave");
+    buttonSave.addEventListener('click', async e => {
+
+      const id = document.getElementById("id").value;
+      const text = document.getElementById("text").value;
+
+      try {
+
+        const response = await fetch('/texts/update', {
+          method: 'PUT',
+          body: JSON.stringify({
+            label: id,
+            text
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'csrf-token': csrfToken
+          }
+        });
+
+        const csrfTokenRefresh = getCsrfTokenRefresh(response);
+        if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
+
+        if (response.status == 200) {
+          showToastSuccess('Texto atualizado com sucesso!')
+          setTimeout(() => loadTextList(), 1000);
+          return;
+        }
+        const data = await response.json();
+        if (data.message) {
+          showToastError(data.message);
+        }
+
+      } catch (err) {
+        showToastError('Não foi possível atualizar o texto')
+      }
+    });
+
+    const resetTexts = document.getElementById("reset_texts");
+    resetTexts.addEventListener('click', e => {
+      showAlertConfirm(async () => {
+        try {
+
+          const response = await fetch('/texts/reset', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          });
+
+          const csrfTokenRefresh = getCsrfTokenRefresh(response);
+          if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
+
+          if (response.status === 204) {
+            showToastSuccess('Sucesso, todos textos resetados!');
+            setTimeout(() => loadTextList(), 1000);
+            return
+          }
+
+          const data = await response.json();
+          if (data.message) {
+            showToastError(data.message);
+          }
+
+        } catch (e) {
+          showToastError("Não foi possível resetar textos!");
+        }
+      })
+    });
+
+    const getColorFromFont = (text) => {
+      const pattern = /<font color="(.*)">(.*)<\/font>/g;
+      const result = pattern.exec(text);
+      if (result) {
+        return result[1];
+      }
+      return null;
+    }
+
+    const replaceTextColor = (text, color) => {
+      const pattern = /<font color="(.*)">(.*)<\/font>/g;
+      if (!pattern.exec(text)) {
+        return `<font color="${color}">${text}</font>`;
+      }
+      const result = text.replace(pattern, `<font color="${color}">$2</font>`);
+      return result;
+    }
+
+    const setTextBold = (text) => {
+      const pattern = /<b>(.*)<\/b>/g;
+      if (text.match(pattern)) {
+        const result = text.replace(pattern, `$1`);
+        return result;
+      }
+      return `<b>${text}</b>`;
+    }
+
+    const setTextItalic = (text) => {
+      const pattern = /<i>(.*)<\/i>/g;
+      if (text.match(pattern)) {
+        const result = text.replace(pattern, `$1`);
+        return result;
+      }
+      return `<i>${text}</i>`;
+    }
+
+    const setPreview = (text) => {
+      const preview = document.querySelector('.__preview');
+      preview.innerHTML = text;
+    }
+
+    const applyColor = document.querySelector('.__apply_color');
+    applyColor.addEventListener('click', () => {
+      const div = document.createElement('div');
+      const color = new jscolor(div);
+      color.onInput = () => {
+        const text = document.querySelector('#text');
+        text.value = replaceTextColor(text.value, color.toHEXString());
+        setPreview(text.value);
+      }
+      color.onClose = () => div.remove();
+      applyColor.insertAdjacentElement('beforebegin', div);
+
+      const c = getColorFromFont(text.value);
+      if (c) color.fromString(c);
+      color.show();
+    })
+
+    const bold = document.querySelector('.__bold');
+    bold.addEventListener('click', () => {
+      const text = document.querySelector('#text');
+      text.value = setTextBold(text.value);
+      setPreview(text.value);
+    })
+
+    const italic = document.querySelector('.__italic');
+    italic.addEventListener('click', () => {
+      const text = document.querySelector('#text');
+      text.value = setTextItalic(text.value);
+      setPreview(text.value);
+    })
+
+    $(document).ready(function() {
+      $('#modal-text').on('show.bs.modal', function(event) {
+
+        const text_id = event.relatedTarget.getAttribute('data-bs-text-id')
+        const text = JSON.parse(decodeURIComponent($('#text_' + text_id).val()))
+        const div = $('#modal-text div')
+
+        $('#id').attr('value', text_id)
+
+        bold.checked = text.text.match(/<b>(.*)<\/b>/g) ? true : false;
+        italic.checked = text.text.match(/<i>(.*)<\/i>/g) ? true : false;
+
+        div.find('input[name="label"]').val(text.label)
+        div.find('textarea[name="text"]').val(text.text)
+        div.find('.__preview').html(text.text)
+      });
+    });
+
+    $('#search').on('input', function() {
+      const val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+      rows.show().filter(function() {
+        const text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        return !~text.indexOf(val);
+      }).hide();
+    })
+
+    function exportAppText() {
+      //
+    }
+
+    function copyText(text) {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      $temp.val(text).select();
+      document.execCommand("copy");
+      $temp.remove();
+    }
+  </script>
+</body>
+
+</html>

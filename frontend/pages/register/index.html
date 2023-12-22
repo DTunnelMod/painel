@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <base href="/" target="_blank">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../static/img/favicon.svg" />
+  <title>DTunnelMod - Registro</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <meta name="csrf-token" content="<%= it.csrfToken %>">
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .btn-outline-dark {
+      color: #fff;
+      border: #fff 1px solid;
+    }
+
+    .btn-outline-dark:hover {
+      border: #fff 1px solid;
+    }
+
+    .text-bg-dark {
+      background-color: #181818;
+    }
+
+    .input-dark {
+      background-color: #181818;
+    }
+
+    .form-select,
+    .form-control {
+      outline: none;
+      border: none;
+    }
+
+    .btn.disabled,
+    .btn:disabled,
+    fieldset:disabled .btn {
+      background-color: #181818;
+      border: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .img-rounded {
+      border-radius: 50%;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link href="../static/css/signin.css" rel="stylesheet">
+  <link href="../static/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body class="w-100 vh-100 d-flex justify-content-center">
+  <main class="text-center">
+    <div class="card text-bg-dark shadow border border-0 rounded-4 p-3" style="max-width: 400px;">
+      <form role="form" method="POST">
+        <input id="csrf_token" name="csrf_token" type="hidden" value="IjQ3YzM5YmJiMTdhODE2MDU1Y2NjZTdkMmVhNzM2NmJiMjMwMmMzZTIi.ZWMs-g.3S4zbu_OwJaENqRwozImnUPssQw">
+        <img class="mb-4 img-rounded" src="../static/img/icon.jpg" alt width="120" height="120">
+        <div class="d-flex flex-column text-start gap-3 __inputs">
+          <div>
+            <label class="form-label ms-1 mb-1">Nome de usuario</label>
+            <input type="text" class="form-control bg-dark text-white rounded" name="username" id="username" required placeholder="Ex: username">
+          </div>
+          <div class="d-flex flex-md-row flex-column gap-3">
+            <div>
+              <label class="form-label ms-1 mb-1">Senha</label>
+              <input type="password" class="form-control bg-dark text-white rounded" name="password" id="password" required placeholder="********">
+            </div>
+            <div>
+              <label class="form-label ms-1 mb-1">Confirme a senha</label>
+              <input type="password" class="form-control bg-dark text-white rounded" id="confirm_password" name="confirm_password" required placeholder="********">
+            </div>
+          </div>
+          <div>
+            <label class="form-label ms-1 mb-1">E-mail</label>
+            <input type="email" class="form-control bg-dark text-white rounded" id="email" name="email" required placeholder="Ex: email@mail.com">
+          </div>
+        </div>
+        <button type="submit" class="w-100 btn btn-dark btn-block rounded mt-4">
+          <div class="__btn_loader d-flex justify-content-center d-none">
+            <div class="spinner-border text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <span class="__btn_text">Registrar</span>
+        </button>
+      </form>
+      <hr />
+      <p><a href="/login" class="text-reset" target="_self">Se você já tem uma conta, faça login aqui.</a></p>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="../static/js/utils.js"></script>
+  <script src="../static/js/register.js"></script>
+</body>
+
+</html>

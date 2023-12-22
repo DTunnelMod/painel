@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR" translate="no" data-bs-theme="light">
+
+<head>
+  <base href="/" target="_blank">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <link rel="shortcut icon" href="/static/img/favicon.svg" />
+  <title>DTunnelMod - Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/css/sidebar.css">
+  <link rel="stylesheet" href="../static/css/header.css">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+  <script src="../static/js/dark_light.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+  <meta name="csrf-token" content="<%= it.csrfToken %>">
+</head>
+
+<body>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  <main class="d-flex">
+    <%~ include("./sidebar", it) %>
+    <div class="container-fluid p-0">
+      <%~ include("./header", it) %>
+      <div class="content pt-1 overflow-auto">
+        <%~ include("./cards", it) %>
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../static/js/sidebar.js"></script>
+  <script src="../static/js/utils.js"></script>
+
+  <script>
+    const padStart = (value, length, pad) => {
+      return `${value}`.padStart(length, pad);
+    };
+
+    const setInternalError = (element) => element.innerHTML = '<span class="text-danger">Erro interno</span>';
+
+    const fetchDataAndUpdate = async (endpoint) => {
+
+      const config = document.querySelector('.__config');
+      const configPlaceholder = document.querySelector('.__config__placeholder');
+
+      const category = document.querySelector('.__category');
+      const categoryPlaceholder = document.querySelector('.__category__placeholder');
+
+      try {
+
+        const data = await fetch('/config_count', {
+          headers: {
+            'csrf-token': getCsrfTokenHead()
+          }
+        });
+        const response = await data.json();
+
+        if (response.message) {
+          config.textContent = padStart(0, 2, '0');
+          category.textContent = padStart(0, 2, '0');
+          return;
+        }
+
+        config.textContent = padStart(response.total_configs, 2, '');
+        category.textContent = padStart(response.total_categories, 2, '');
+
+      } catch (err) {
+        setInternalError(config);
+        setInternalError(category);
+      } finally {
+        configPlaceholder.classList.add('d-none');
+        categoryPlaceholder.classList.add('d-none');
+      }
+    };
+
+    fetchDataAndUpdate();
+  </script>
+</body>
+
+</html>
