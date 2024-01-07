@@ -54,7 +54,7 @@ class ConfigExportApp {
         };
 
         try {
-            const response = await fetch('/config/copy', options);
+            const response = await fetch('/app_config/export/app', options);
             const result = await response.json();
             if (result.config) {
                 showToastSuccess('Opa! configuração exportada com sucesso!');

@@ -84,7 +84,6 @@ class ConfigImportModal {
                     modal.setOnSaveListener(() => {
                         try {
                             modal.form.validate();
-
                             const data = modal.form.toConfig();
                             data.id = config.id
                             data.category = categoryList.get(data.category_id)
@@ -137,7 +136,6 @@ class ConfigImportModal {
                 delete item.category_id;
                 return;
             }
-
             item.category = this.categoryList.get(parseInt(categoryId));
             item.category_id = parseInt(categoryId);
         });
@@ -164,7 +162,6 @@ class ConfigImportModal {
             const importer = ConfigLoaderFactory.create(type);
             this.setTextAreaValue(await importer.load(value));
         } catch (e) {
-            console.error(e);
             showToastError(e.message);
         }
     }
@@ -190,7 +187,6 @@ class ConfigImportModal {
             showToastSuccess('Configurações importadas com sucesso!');
             this.modal.hide();
         } catch (e) {
-            console.error(e);
             showToastError(e.message);
         }
     }

@@ -16,9 +16,9 @@ class ExportConfigModal {
                     <div class="d-flex flex-column">
                         <textarea class="form-control mb-3 mh-100" cols="30" rows="10"></textarea>
                         <div class="d-flex justify-content-between gap-3">
-                            <button type="button" class="btn-responsive w-100" disabled>LINK</button>
+                            <button type="button" class="btn-responsive w-100 opacity-75" disabled>LINK</button>
                             <button type="button" class="btn-responsive w-100">ARQUIVO</button>
-                            <button type="button" class="btn-responsive w-100" disabled>APP</button>
+                            <button type="button" class="btn-responsive w-100">APP</button>
                             <button type="button" class="btn-responsive w-100">COPIAR</button>
                         </div>
                     </div>

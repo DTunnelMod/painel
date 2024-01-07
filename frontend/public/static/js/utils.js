@@ -102,23 +102,29 @@ const showToastInfo = (message) => {
 
 const uploadImage = async (e, element) => {
 
-    //showToastInfo('Aguarde, enviando imagem...');
-    showToastWarning('Upload de imagem indisponível!');
-    return;
+    showToastInfo('Aguarde, enviando imagem...');
+    //showToastWarning('Upload de imagem indisponível!');;
 
     const form = new FormData();
     form.append('file', e.files[0]);
-    const options = {
+
+    const response = await fetch('/upload/image', {
         method: 'POST',
         body: form
-    };
-    const response = await fetch('/config/upload/image', options);
+    });
+
     const data = await response.json();
     if (data.status == 200) {
         showToastSuccess('Opa! Imagem enviada com sucesso!');
-        if (element) element.value = data.data;
-        return data.data;
+        if (element) element.value = data.url;
+        return data.url;
     }
+
+    if (data.message) {
+        showToastError(data.message);
+        return;
+    }
+
     showToastError('Ops! Não foi possível enviar a imagem!');
 }
 

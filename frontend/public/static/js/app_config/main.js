@@ -262,7 +262,7 @@ const renderCard = (root, appConfigList) => {
         const config = AppConfig.fromJson({ app_config: data, id: null });
         appConfigList.add(config);
         appConfigList.notify('import', config);
-        modal.hide();
+        appConfigImportModal.modal.hide();
     })
     cardDefault.setOnBtnImportClick(() => appConfigImportModal.show());
 
@@ -347,9 +347,7 @@ const main = async () => {
         try {
 
             const response = await fetch(`/app_layout/list?offset=${offset}&limit=${limit}`, {
-                headers: {
-                    'csrf-token': csrfToken
-                }
+                headers: {}
             });
 
             const csrfTokenRefresh = getCsrfTokenRefresh(response);
@@ -398,14 +396,10 @@ const main = async () => {
             const response = await fetch('/app_layout/update', {
                 method: 'PUT',
                 headers: {
-                    'csrf-token': csrfToken,
                     'Content-Type': 'application/json'
                 },
                 body: data
             });
-
-            const csrfTokenRefresh = getCsrfTokenRefresh(response);
-            if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
             if (response.status === 200) {
                 showToastSuccess('Configuração salva com sucesso!');
@@ -429,13 +423,8 @@ const main = async () => {
 
             const response = await fetch(`/app_layout/delete/${config.id}`, {
                 method: 'DELETE',
-                headers: {
-                    'csrf-token': csrfToken
-                }
+                headers: {}
             });
-
-            const csrfTokenRefresh = getCsrfTokenRefresh(response);
-            if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
            
             if (response.status === 204) {
                 showToastSuccess('Configuração deletada com sucesso!');
@@ -460,13 +449,8 @@ const main = async () => {
 
             const response = await fetch('/app_layout/create', {
                 method: 'POST',
-                headers: {
-                    'csrf-token': csrfToken
-                }
+                headers: {}
             });
-
-            const csrfTokenRefresh = getCsrfTokenRefresh(response);
-            if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
             if (response.status == 201) {
                 showToastSuccess('Layout criado com sucesso!');
@@ -491,13 +475,8 @@ const main = async () => {
 
             const response = await fetch(`/app_layout/toogle/${id}`, {
                 method: 'PUT',
-                headers: {
-                    'csrf-token': csrfToken
-                }
+                headers: {}
             });
-
-            const csrfTokenRefresh = getCsrfTokenRefresh(response);
-            if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
             if (response.status === 200) {
                 showToastSuccess('Configuração trocada com sucesso!');
@@ -517,24 +496,31 @@ const main = async () => {
 
     appConfigList.observe(async (event, config) => {
         if (event == 'import') {
+
             // showToastInfo('Importando configuração...');
+
             const data = config.toJson();
-            const options = {
+            const response = await fetch('/app_layout/import', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: data
-            };
-            const url = '/app_config/store/import';
-            const response = await fetch(url, options);
-            const result = await response.json();
+            });
 
-            if (!result.data || result.status == 201) {
+            main();
+            
+            if (response.status == 201) {
                 showToastSuccess('Configuração importada com sucesso!');
-                main();
                 return;
             }
+
+            const result = await response.json();
+            if (result.error) {
+                showToastSuccess(result.message);
+                return;
+            }
+
             showToastError('Erro ao importar configuração!');
         }
     });

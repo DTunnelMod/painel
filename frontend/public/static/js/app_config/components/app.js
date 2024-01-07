@@ -287,7 +287,7 @@ export class AppConfigAdvancedView extends AppConfigPreview {
                 input.accept = 'image/*,image/gif';
                 input.onchange = async (e) => {
                     const url = await uploadImage(e.target);
-                    //this.appConfig.app_background_image = url;
+                    this.appConfig.app_background_image = url;
                 }
                 input.click();
             }
@@ -301,7 +301,7 @@ export class AppConfigAdvancedView extends AppConfigPreview {
             input.accept = 'image/*,image/gif';
             input.onchange = async (e) => {
                 const url = await uploadImage(e.target);
-                //this.appConfig.app_logo = url;
+                this.appConfig.app_logo = url;
             }
             input.click();
         });

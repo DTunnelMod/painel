@@ -40,7 +40,7 @@ class Pagination {
         return html;
     }
 
-    renderPageButtons() {
+    RenderConfigButtons() {
         let html = '';
         const pages = Math.ceil(this.total / this.limit);
         const start = Math.max(1, this.offset - 2);
@@ -68,7 +68,7 @@ class Pagination {
             this.element.innerHTML = '';
             return;
         }
-        this.element.innerHTML = this.renderPreviusButton() + this.renderPageButtons() + this.renderNextButton();
+        this.element.innerHTML = this.renderPreviusButton() + this.RenderConfigButtons() + this.renderNextButton();
 
         this.limitDiv.innerHTML = this.renderLimitButtons();
         this.limitDiv.querySelectorAll('input').forEach(input => {

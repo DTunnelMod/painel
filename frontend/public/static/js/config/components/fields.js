@@ -405,7 +405,7 @@ export class ConfigIcon extends TextFiled {
         element.type = 'file';
         element.onchange = async e => {
             const link = await uploadImage(e.target)
-            //this._element.value = link;
+            this._element.value = link;
         };
         element.click();
     }

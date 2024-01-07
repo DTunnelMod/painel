@@ -189,8 +189,8 @@ class InputImage extends Input {
         this.inputFile.addEventListener('change', async (event) => {
             const element = event.target;
             const url = await uploadImage(element);
-            //this.inputUrl.value = url;
-            //this.inputUrl.dispatchEvent(new Event('input'));
+            this.inputUrl.value = url;
+            this.inputUrl.dispatchEvent(new Event('input'));
         });
 
         this.btnUpload.addEventListener('click', () => this.inputFile.click());

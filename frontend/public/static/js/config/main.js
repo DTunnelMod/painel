@@ -156,9 +156,7 @@ const getConfigAndCategory = async () => {
     try {
 
         const categoryList = await fetch('/category_list', {
-            headers: {
-                'csrf-token': csrfToken
-            }
+            headers: {}
         });
 
         let csrfTokenRefresh = getCsrfTokenRefresh(categoryList);
@@ -167,13 +165,8 @@ const getConfigAndCategory = async () => {
         const categoryResponse = await categoryList.json();
 
         const configList = await fetch(`/configs_list?offset=${offset}&limit=${limit}&search=${_search}&status=${_status}`, {
-            headers: {
-                'csrf-token': csrfToken,
-            }
+            headers: {}
         });
-
-        csrfTokenRefresh = getCsrfTokenRefresh(configList);
-        if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
         const configResponse = await configList.json();
 
@@ -204,14 +197,10 @@ list.register(new Observer('append', async item => {
         const response = await fetch('/config', {
             method: 'POST',
             headers: {
-                'csrf-token': csrfToken,
                 'Content-Type': 'application/json'
             },
             body: item.toJson()
         });
-
-        const csrfTokenRefresh = getCsrfTokenRefresh(response);
-        if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
         const data = await response.json();
 
@@ -247,7 +236,6 @@ list.register(new Observer('update', async item => {
         const response = await fetch(`/config/${item.id}`, {
             method: 'PUT',
             headers: {
-                'csrf-token': csrfToken,
                 'Content-Type': 'application/json'
             },
             body: item.toJson()

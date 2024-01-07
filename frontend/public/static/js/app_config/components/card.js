@@ -12,7 +12,7 @@ class CardDefault extends ComponentStyled {
                 </svg>
                 <h5>CRIAR TEMA</h5>
             </div>
-            <div class="px-0 btn btn-dark __import border-0 w-100 d-flex align-items-center gap-2 opacity-50">
+            <div class="px-0 btn btn-dark __import border-0 w-100 d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" viewBox="0 0 16 16">
                     <path
                         d="M8 5a.5.5 0 0 1 .5.5V7H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V8H6a.5.5 0 0 1 0-1h1.5V5.5A.5.5 0 0 1 8 5zm-2.5 6.5A.5.5 0 0 1 6 11h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
@@ -50,7 +50,7 @@ class CardDefault extends ComponentStyled {
     }
 
     setOnBtnImportClick(callback) {
-        //this.element.querySelector('.__import').addEventListener('click', callback);
+        this.element.querySelector('.__import').addEventListener('click', callback);
     }
 
     setOnBtnSyncClick(callback) {

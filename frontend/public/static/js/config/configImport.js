@@ -3,16 +3,15 @@ class ConfigImport {
         const body = {
             items: JSON.parse(content),
         }
-        const options = {
+        const response = await fetch('/app_config/import', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
-        }
-        const response = await fetch('config/import', options);
+        });
         const data = await response.json();
-        if (data.status != 201) throw new Error(data.data.error);
+        if (response.status != 201) throw new Error(data.message);
     }
 
     static create() {

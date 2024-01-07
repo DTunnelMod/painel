@@ -80,13 +80,8 @@ const main = async () => {
         try {
 
             const response = await fetch(`/category_list?offset=${pagination.offset}&limit=${pagination.limit}`, {
-                headers: {
-                    'csrf-token': csrfToken
-                }
+                headers: {}
             })
-
-            const csrfTokenRefresh = getCsrfTokenRefresh(response);
-            if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
             const data = await response.json()
 
@@ -166,13 +161,9 @@ const main = async () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'csrf-token': csrfToken
             },
             body: JSON.stringify(category)
         });
-
-        const csrfTokenRefresh = getCsrfTokenRefresh(response);
-        if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
         const data = await response.json()
 
@@ -198,13 +189,9 @@ const main = async () => {
             const response = await fetch(`/category/${category.id}`, {
                 method: 'DELETE',
                 headers: {
-                    'csrf-token': csrfToken,
                     'Content-Type': 'application/json'
                 }
             });
-
-            const csrfTokenRefresh = getCsrfTokenRefresh(response);
-            if (csrfTokenRefresh) csrfToken = csrfTokenRefresh;
 
             if (response.status == 204) {
                 showToastSuccess(`Categoria ${category.name} removida com sucesso!`)
@@ -232,7 +219,6 @@ const main = async () => {
         const response = await fetch(`/category/${category.id}`, {
             method: 'PUT',
             headers: {
-                'csrf-token': csrfToken,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(category)

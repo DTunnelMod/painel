@@ -100,7 +100,6 @@ class AppConfigImportModal {
             this.preview.appendChild(app.element);
         } catch (e) {
             showToastError('Configurações inválidas!')
-            console.error(e);
         };
     }
 
